@@ -1,9 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;700&display=swap");
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
+  font-family: "Montserrat Alternates", sans-serif;
+  color: #ffffff;
+  background: #ff7400 linear-gradient(#ff0000, #ff4d00, #ff7400, #ff9a00, #ffc100);
+  overflow: hidden;
 }
 
 a {
@@ -13,4 +17,17 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+#gradient-canvas {
+  width: 100vw;
+  height: 100vh;
+  --gradient-color-1: #ff0000;
+  --gradient-color-2: #ff4d00;
+  --gradient-color-3: #ff7400;
+  --gradient-color-4: #ff9a00;
+}
+
+.emoji {
+  font-family: "Apple Color Emoji";
 }
