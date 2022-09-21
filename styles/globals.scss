@@ -22,7 +22,7 @@ a {
 #gradient-canvas {
   width: 100vw;
   height: 100vh;
-  --gradient-color-1: #ff0000;
+  --gradient-color-1: #ff0100; // #ff0000 causes webpack to mess something up
   --gradient-color-2: #ff4d00;
   --gradient-color-3: #ff7400;
   --gradient-color-4: #ff9a00;
