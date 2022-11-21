@@ -35,7 +35,7 @@ const Home: NextPage = () => {
           projectsText.current!.style.top = `${projectsTextScrollHeight}px`;
         }
 
-        if (Container.scrollTop > window.innerHeight * 4 && Container.scrollTop < window.innerHeight * 5) {
+        if (Container.scrollTop > window.innerHeight * 4 && Container.scrollTop < window.innerHeight * 6) {
           projectsText.current!.style.top = `${
             projectsTextScrollHeight + (Container.scrollTop - window.innerHeight * 4)
           }px`;
@@ -98,6 +98,20 @@ const Home: NextPage = () => {
                 The creater of Tyroxeen Music, Lars Keibel, was our former exchange student and in his time with us, I
                 decided to surprise him with a full website. He liked it and ended up publishing it on his domain and
                 I&apos;m now updating it whenever he releases a new song.
+              </p>
+            </div>
+          </a>
+        </div>
+        <div className={styles.scroll7}>
+          <a className={styles.projectLink} target="_blank" rel="noreferrer" href="https://tmr.scribblenerd.com">
+            <div className={styles.project}>
+              <h2>The Monday Record</h2>
+              <p>
+                <p>
+                  The Monday Record is a website I created for my US History class, where we needed to make a news
+                  website as if it was created in the 1920&apos;s and create two articles on it. We were supposed to
+                  create it in Google Sites, but of course, I went above and beyond and created it in Next.JS.
+                </p>
               </p>
             </div>
           </a>
