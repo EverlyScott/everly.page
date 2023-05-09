@@ -103,7 +103,7 @@ const Home: NextPage = () => {
           </a>
         </div>
         <div className={styles.scroll7}>
-          <a className={styles.projectLink} target="_blank" rel="noreferrer" href="https://tmr.scribblenerd.com">
+          <a className={styles.projectLink} target="_blank" rel="noreferrer" href="https://tmr.everly.page">
             <div className={styles.project}>
               <h2>The Monday Record</h2>
               <p>
