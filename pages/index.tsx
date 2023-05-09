@@ -69,7 +69,7 @@ const Home: NextPage = () => {
         </div>
         <div className={styles.scroll3}>
           <p className={styles.hiTextPlaceholder}>&nbsp;</p>
-          <p>I am 15 years old and am into web development, music, video production, and theater.</p>
+          <p>I am 16 years old and am into web development, music, video production, and theater.</p>
         </div>
 
         <h1 hidden>Projects</h1>
