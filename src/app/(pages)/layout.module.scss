@@ -1,0 +1,19 @@
+.homeLink {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1.5rem;
+
+  &:hover {
+    color: #cccccc;
+    text-decoration: underline;
+  }
+}
+
+.homeImage {
+  filter: invert(1);
+  transition: filter 0.1s;
+
+  &:hover {
+    filter: invert(1) brightness(70%);
+  }
+}

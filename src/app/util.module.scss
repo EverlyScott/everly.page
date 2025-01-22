@@ -1,0 +1,5 @@
+.mobileBackgroundAttachmentFix {
+  @media (max-width: 900px) {
+    background-attachment: scroll !important;
+  }
+}

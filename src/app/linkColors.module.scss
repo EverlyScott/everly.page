@@ -1,0 +1,31 @@
+a.green {
+  color: #abca4b;
+
+  &:hover {
+    color: #85a12f;
+  }
+}
+
+a.orange {
+  color: #fea080;
+
+  &:hover {
+    color: #fd6734;
+  }
+}
+
+a.blue {
+  color: #a3b9f4;
+
+  &:hover {
+    color: #5a82eb;
+  }
+}
+
+a.purple {
+  color: #df80ff;
+
+  &:hover {
+    color: #cc33ff;
+  }
+}

@@ -1,0 +1,16 @@
+.main {
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 8vw;
+  transform: rotateY(180deg);
+}

@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+* {
+  font-family: "Nunito", arial;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f4f3f2;
+}
+
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration-style: none;
+  color: #5a5a5a;
+
+  &:hover {
+    text-decoration-style: wavy;
+    color: #000000;
+  }
+}
