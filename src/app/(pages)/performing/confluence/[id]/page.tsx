@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useParams, notFound } from "next/navigation";
 import { Suspense } from "react";
 import RelatedVideos from "./_relatedVideos";
-import Player from "./_player";
+import Player from "../../../../../components/Player";
 import Container from "./_container";
 
 interface IProps {
@@ -42,8 +42,12 @@ const Video: NextPage<IProps> = async ({ params }) => {
           {video.suffix ? ` ${video.suffix}` : ""}
         </h1>
         <h3 style={{ marginTop: "-4px", marginBottom: "0.5rem", fontWeight: "normal" }}>{video.venue}</h3>
-        <Player video={video} />
-        {/* <video src={`${video.rootUrl}original.mp4`} controls width="50%" /> */}
+        <Player
+          title={video.song}
+          src={`${video.rootUrl}index.m3u8`}
+          staticSrc={`${video.rootUrl}original.mp4`}
+          thumbnail={`${video.rootUrl}thumb.avif`}
+        />
         <div style={{ height: "2rem" }} />
         <RelatedVideos id={id} video={video} />
       </Container>
