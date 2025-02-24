@@ -10,9 +10,10 @@ interface IProps {
   src: string;
   staticSrc?: string;
   thumbnail: string;
+  previews?: string;
 }
 
-const Player: React.FC<IProps> = ({ title, src, staticSrc, thumbnail }) => {
+const Player: React.FC<IProps> = ({ title, src, staticSrc, thumbnail, previews }) => {
   return (
     <>
       <MediaPlayer title={title} src={src} style={{ maxHeight: "75vh", aspectRatio: 16 / 9 }} autoPlay id="player">
@@ -21,7 +22,7 @@ const Player: React.FC<IProps> = ({ title, src, staticSrc, thumbnail }) => {
           mediaProps={{ style: { width: "100%", height: "100%" } }}
         />
         <DefaultVideoLayout
-          thumbnails={thumbnail}
+          thumbnails={previews}
           icons={defaultLayoutIcons}
           slots={{
             beforeCurrentTime: <div style={{ width: ".5rem" }}></div>,

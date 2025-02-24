@@ -74,9 +74,7 @@ const Confluence: NextPage<IProps> = async ({ searchParams }) => {
         }}
       >
         <div style={{ width: "100%", height: "100%", backgroundColor: "#331C5080", color: "#A37FD9" }}>
-          <Suspense fallback="Loading...">
-            <VideoBrowser Tab={tab} />
-          </Suspense>
+          <VideoBrowser Tab={tab} />
         </div>
       </div>
     </>

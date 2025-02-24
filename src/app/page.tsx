@@ -71,7 +71,7 @@ const Home: NextPage = () => {
               </Link>
             </li>
             <li>
-              <Link className={linkColors.orange} href="/photo">
+              <Link className={linkColors.orange} href="https://photos.everly.page" target="_blank">
                 photography
               </Link>
             </li>

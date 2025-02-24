@@ -1,0 +1,21 @@
+.video {
+  color: #fab2d0;
+  text-decoration-style: none;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background-color: rgba(74, 31, 63, 0.5);
+  backdrop-filter: blur(4px) brightness(50%);
+
+  &:hover {
+    color: #fab2d0;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    backdrop-filter: blur(4px) brightness(100%);
+  }
+}

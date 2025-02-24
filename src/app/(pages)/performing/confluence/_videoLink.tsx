@@ -1,12 +1,12 @@
 "use client";
 
-import { ConfluenceVideoTable } from "@/db";
+import { ConfluenceVideosTable } from "@/db";
 import Link from "next/link";
 import styles from "./_videoLink.module.scss";
 import { useMediaQuery } from "usehooks-ts";
 
 interface IProps {
-  video: ConfluenceVideoTable;
+  video: ConfluenceVideosTable;
   rootUrl: `${string}/`;
 }
 
