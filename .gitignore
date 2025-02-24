@@ -36,4 +36,4 @@ yarn-error.log*
 
 show-choir-events
 show-choir-performances
-# main.sqlite
+main.sqlite
