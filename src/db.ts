@@ -30,14 +30,14 @@ export interface BandChoirVideosTable {
   title: string;
   performanceOrder?: number;
   date: string;
-  rootUrl: string;
+  rootUrl: `${string}/`;
 }
 
 export interface ShowChoirPerformancesTable {
   id: string;
   eventId: string;
   title?: string;
-  rootUrl: string;
+  rootUrl: `${string}/`;
 }
 
 export interface ShowChoirEventsTable {
@@ -50,41 +50,38 @@ export interface ShowChoirEventsTable {
    * `0` = Did not place
    */
   place: number;
-  captions: z.infer<typeof stringArr>;
-  date: string;
+  captions: string;
+  date: `${number}-${number}-${number}`;
 }
 
 export interface ShowChoirGroupsTable {
   id: string;
   name: string;
   season: number;
-  primaryColor: string;
-  secondaryColor: string;
+  primaryColor: `#${string}`;
+  secondaryColor: `#${string}`;
   imageUrl: string;
-  directors: z.infer<typeof stringArr>;
-  choreographers: z.infer<typeof stringArr>;
-  repertoire: z.infer<typeof showChoirRepertoire>;
+  bio?: string;
+  directors: string;
+  choreographers: string;
+  repertoire: string;
 }
 
-const stringArr = z.array(z.string());
+export interface ShowChoirSong {
+  type: "song";
+  title: string;
+  by: string;
+  link?: string;
+  youtubeId?: string;
+}
 
-export const showChoirSong = z.object({
-  type: z.literal("song"),
-  title: z.string(),
-  by: z.string(),
-  link: z.string().url().optional(),
-});
+export interface ShowChoirMedley {
+  type: "medley";
+  title: string;
+  songs: ShowChoirSong[];
+}
 
-export const showChoirRepertoire = z.array(
-  z.union([
-    showChoirSong,
-    z.object({
-      type: z.literal("medley"),
-      title: z.string(),
-      songs: z.array(showChoirSong),
-    }),
-  ])
-);
+export type ShowChoirRepertoire = ShowChoirSong | ShowChoirMedley;
 
 if (fs.existsSync("main.sqlite")) {
   fs.rmSync("main.sqlite");
@@ -105,7 +102,7 @@ let initialized = false;
 export type DB = typeof db;
 
 export const getDB = async () => {
-  if (!initialized) {
+  if (initialized === false) {
     await createDb(db);
 
     initialized = true;

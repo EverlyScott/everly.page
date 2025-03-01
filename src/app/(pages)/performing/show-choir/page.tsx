@@ -1,7 +1,7 @@
 import Divider from "@/components/Divider";
 import { NextPage } from "next";
 import { Suspense } from "react";
-import VideoBrowser from "./_videoBrowser";
+import ChoirBrowser from "./_choirBrowser";
 
 interface IProps {
   searchParams: Promise<{ tab?: string }>;
@@ -33,7 +33,7 @@ const ShowChoir: NextPage<IProps> = async ({ searchParams }) => {
               fontSize: "calc(25vw / 5)",
               zIndex: 0,
               fontWeight: "bold",
-              backdropFilter: "blur(4px) brightness(50%)",
+              backdropFilter: "blur(4px)",
               padding: "0 2rem",
               borderRadius: "10px",
             }}
@@ -59,7 +59,7 @@ const ShowChoir: NextPage<IProps> = async ({ searchParams }) => {
       >
         <div style={{ width: "100%", height: "100%", backgroundColor: "#4A1F3F80", color: "#FAB2D0" }}>
           <Suspense fallback="Loading...">
-            <VideoBrowser />
+            <ChoirBrowser />
           </Suspense>
         </div>
       </div>

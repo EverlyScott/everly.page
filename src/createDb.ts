@@ -1,4 +1,4 @@
-import type { DB } from "@/db";
+import type { DB, ShowChoirRepertoire } from "@/db";
 
 const createDb = async (db: DB) => {
   await db.schema
@@ -58,6 +58,7 @@ const createDb = async (db: DB) => {
     .addColumn("primaryColor", "text", (col) => col.notNull())
     .addColumn("secondaryColor", "text", (col) => col.notNull())
     .addColumn("imageUrl", "text", (col) => col.notNull())
+    .addColumn("bio", "text")
     .addColumn("directors", "json", (col) => col.notNull())
     .addColumn("choreographers", "json", (col) => col.notNull())
     .addColumn("repertoire", "json", (col) => col.notNull())
@@ -812,13 +813,13 @@ const createDb = async (db: DB) => {
         id: "01-28-2023-la-crosse-grand-river-invitational-prelims",
         eventId: "01-28-2023-la-crosse-grand-river-invitational",
         title: "Prelims",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "01-28-2023-la-crosse-grand-river-invitational-finals",
         eventId: "01-28-2023-la-crosse-grand-river-invitational",
         title: "Finals",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "02-04-2023-destination-de-pere-lets-jam-prelims",
@@ -830,19 +831,19 @@ const createDb = async (db: DB) => {
         id: "03-04-2023-totino-grace-show-choir-spectacular-prelims",
         eventId: "03-04-2023-totino-grace-show-choir-spectacular",
         title: "Prelims",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "03-11-2023-holmen-gathering-of-the-stars-prelims",
         eventId: "03-11-2023-holmen-gathering-of-the-stars",
         title: "Prelims",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "03-11-2023-holmen-gathering-of-the-stars-finals",
         eventId: "03-11-2023-holmen-gathering-of-the-stars",
         title: "Finals",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "04-19-2023-la-crosse-spring-spectacular",
@@ -899,7 +900,7 @@ const createDb = async (db: DB) => {
         id: "01-27-2024-sauk-prairie-executive-session-invitational-prelims",
         eventId: "01-27-2024-sauk-prairie-executive-session-invitational",
         title: "Prelims",
-        rootUrl: "stub",
+        rootUrl: "stub/",
       },
       {
         id: "01-27-2024-sauk-prairie-executive-session-invitational-finals",
@@ -914,14 +915,14 @@ const createDb = async (db: DB) => {
         rootUrl: "https://r2.everly.page/show-choir/02-10-2024-la-crosse-logan-showcase-exhibition/",
       },
       {
-        id: "03-02-2024-cedar-rapids-jefferson-show-choir-invitiational-prelims",
-        eventId: "03-02-2024-cedar-rapids-jefferson-show-choir-invitiational",
+        id: "03-02-2024-cedar-rapids-jefferson-show-choir-invitational-prelims",
+        eventId: "03-02-2024-cedar-rapids-jefferson-show-choir-invitational",
         title: "Prelims",
         rootUrl: "https://r2.everly.page/show-choir/03-02-2024-cedar-rapids-jefferson-show-choir-invitational-prelims/",
       },
       {
-        id: "03-02-2024-cedar-rapids-jefferson-show-choir-invitiational-finals",
-        eventId: "03-02-2024-cedar-rapids-jefferson-show-choir-invitiational",
+        id: "03-02-2024-cedar-rapids-jefferson-show-choir-invitational-finals",
+        eventId: "03-02-2024-cedar-rapids-jefferson-show-choir-invitational",
         title: "Finals",
         rootUrl: "https://r2.everly.page/show-choir/03-02-2024-cedar-rapids-jefferson-show-choir-invitational-finals/",
       },
@@ -1319,7 +1320,7 @@ const createDb = async (db: DB) => {
       },
       {
         id: "01-24-2025-la-crosse-grand-showcase-ms",
-        name: "Grand Showcase Middle Schools",
+        name: "La Crosse Grand Showcase Middle Schools",
         groupId: "rcr-2025",
         place: -2,
         date: "01-24-2025",
@@ -1334,7 +1335,7 @@ const createDb = async (db: DB) => {
       },
       {
         id: "02-08-2025-la-crosse-grand-showcase-hs",
-        name: "Grand Showcase High Schools",
+        name: "La Crosse Grand Showcase High Schools",
         groupId: "rcr-2025",
         place: -2,
         date: "02-08-2025",
@@ -1379,8 +1380,9 @@ const createDb = async (db: DB) => {
         name: "The Class Act",
         season: 2022,
         primaryColor: "#ffffff",
-        secondaryColor: "#ffffff",
+        secondaryColor: "#6B6402",
         imageUrl: "https://r2.everly.page/show-choir/tca-2022.avif",
+        bio: "bio: todo",
         directors: JSON.stringify(["Doreen Athnos", "Kayla Shue"]),
         choreographers: JSON.stringify(["Kevin Chase", "Kyle Aiden"]),
         repertoire: JSON.stringify([
@@ -1445,8 +1447,9 @@ const createDb = async (db: DB) => {
         name: "The Class Act",
         season: 2023,
         primaryColor: "#ffffff",
-        secondaryColor: "#ffffff",
+        secondaryColor: "#59066C",
         imageUrl: "https://r2.everly.page/show-choir/tca-2023.avif",
+        bio: "bio: todo",
         directors: JSON.stringify(["Adam Carty", "Morrigan Villa"]),
         choreographers: JSON.stringify(["Erik Hall"]),
         repertoire: JSON.stringify([
@@ -1527,9 +1530,10 @@ const createDb = async (db: DB) => {
         id: "tca-2024",
         name: "The Class Act",
         season: 2024,
-        primaryColor: "#ffffff",
-        secondaryColor: "#ffffff",
+        primaryColor: "#BB4275",
+        secondaryColor: "#551527",
         imageUrl: "https://r2.everly.page/show-choir/tca-2024.avif",
+        bio: "bio: todo",
         directors: JSON.stringify(["Adam Carty"]),
         choreographers: JSON.stringify(["Ben Eklund", "Dalton Myatt"]),
         repertoire: JSON.stringify([
@@ -1599,15 +1603,16 @@ const createDb = async (db: DB) => {
               },
             ],
           },
-        ]),
+        ] as ShowChoirRepertoire[]),
       },
       {
         id: "rcr-2025",
         name: "River City Revolution",
         season: 2025,
-        primaryColor: "#ffffff",
-        secondaryColor: "#ffffff",
+        primaryColor: "#FAB2D0",
+        secondaryColor: "#4A1F3F",
         imageUrl: "https://r2.everly.page/show-choir/rcr-2025.avif",
+        bio: "<p>After two long and historic runs as separate programs, La Crosse Central and Logan high schools have now joined forces to create a new and exciting group that is performing for us today.</p><p>River City Revolution is made up of 52 singers, a 17 member band, and a 5 member crew. They are directed by Ian Schultz and Adam Carty, with assistant direction by Madeline Beuning. Their band is directed by Andy Meurer with music arranged by Steve Shanley. Todays set has been choreographed by Lexi Robson Buglewicz and Braxton Carr.</p><p>Their performance today is titled Department Stories and tells the tale of two rival clans of manequins that take a stand within a store where trends and styles compete. Lets make some noise for River City Revolution.</p>",
         directors: JSON.stringify(["Ian Schultz", "Adam Carty"]),
         choreographers: JSON.stringify(["Lexi Robson Buglewicz", "Braxton Carr"]),
         repertoire: JSON.stringify([
@@ -1620,12 +1625,14 @@ const createDb = async (db: DB) => {
                 title: "Happy Customers",
                 by: "Two Door Cinema Club",
                 link: "https://song.link/i/1728919768",
+                youtubeId: "DQduxQCRfgQ",
               },
               {
                 type: "song",
                 title: "Shiny Happy People",
                 by: "R.E.M.",
                 link: "https://song.link/i/1440945300",
+                youtubeId: "YYOKMUTTDdA",
               },
             ],
           },
@@ -1638,12 +1645,14 @@ const createDb = async (db: DB) => {
                 title: "Fabulous",
                 by: "Sharpay & Ryan",
                 link: "https://song.link/i/1440769323",
+                youtubeId: "44izuSvo9c0",
               },
               {
                 type: "song",
                 title: "The Anthem",
                 by: "Good Charlotte",
                 link: "https://song.link/i/288051950",
+                youtubeId: "desJKYvdq9A",
               },
             ],
           },
@@ -1652,6 +1661,7 @@ const createDb = async (db: DB) => {
             title: "Disco Man",
             by: "Remi Wolf",
             link: "https://song.link/i/1514025433",
+            youtubeId: "V1dtRs_vN6Y",
           },
           {
             type: "medley",
@@ -1662,12 +1672,14 @@ const createDb = async (db: DB) => {
                 title: "I Made It Through the Rain",
                 by: "Barry Manilow",
                 link: "https://song.link/i/268160570",
+                youtubeId: "cfMhFnm-9S8",
               },
               {
                 type: "song",
                 title: "Freedom! '90",
                 by: "The Bellas",
                 link: "https://song.link/i/1440903485",
+                youtubeId: "5U17PTWpLWI",
               },
             ],
           },
@@ -1676,8 +1688,9 @@ const createDb = async (db: DB) => {
             title: "Physical",
             by: "Dua Lipa",
             link: "https://song.link/i/1538003644",
+            youtubeId: "9HDEHj2yzew",
           },
-        ]),
+        ] as ShowChoirRepertoire[]),
       },
     ])
     .execute();

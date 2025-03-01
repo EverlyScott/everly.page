@@ -1,13 +1,14 @@
-import Container from "@/components/Container";
-import getDB, { ShowChoirEventsTable, ShowChoirPerformancesTable } from "@/db";
-import { notFound } from "next/navigation";
-import VideoLink from "../../confluence/_videoLink";
+import getDB, { ShowChoirRepertoire } from "@/db";
+import { NextPage } from "next";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import RepertoireList from "./_repertoireList";
 
 interface IProps {
   params: Promise<{ choirId: string }>;
 }
 
-const Choir: React.FC<IProps> = async ({ params }) => {
+const Choir: NextPage<IProps> = async ({ params }) => {
   const { choirId } = await params;
 
   const db = await getDB();
@@ -24,93 +25,44 @@ const Choir: React.FC<IProps> = async ({ params }) => {
 
   const choir = choirs[0];
 
-  const events = await db.selectFrom("showChoirEvents").selectAll().where("groupId", "==", choir.id).execute();
-
-  if (choirs.length < 1) {
-    throw new Error("");
-  }
-
-  const allPerformances: { event: ShowChoirEventsTable; performance: ShowChoirPerformancesTable }[] = [];
-
-  for (let i = 0; i < events.length; i++) {
-    const event = events[i];
-
-    const performances = await db
-      .selectFrom("showChoirPerformances")
-      .selectAll()
-      .where("eventId", "==", event.id)
-      .execute();
-
-    allPerformances.push(
-      ...performances.map((performance) => ({
-        event,
-        performance,
-      }))
-    );
-  }
+  const directors: string[] = JSON.parse(choir.directors);
+  const choreographers: string[] = JSON.parse(choir.choreographers);
 
   return (
     <div
       style={{
-        paddingTop: "100px",
-        width: "100vw",
-        height: "100vh",
-        color: choir.primaryColor,
-        backgroundColor: choir.secondaryColor,
-        backgroundImage: `url("${choir.imageUrl}")`,
-        backgroundPosition: "center center",
-        backgroundSize: "cover",
-        display: "flex",
-        justifyContent: "center",
+        backgroundColor: `${choir.secondaryColor}80`,
+        backdropFilter: "blur(4px) brightness(50%)",
+        maxHeight: "90%",
+        width: "100%",
+        borderRadius: "10px",
+        overflowY: "scroll",
+        overflowX: "hidden",
+        padding: "1rem",
       }}
     >
-      <Container>
-        <h1>
-          {choir.name} {choir.season}
-        </h1>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "calc(100vh - 164px - 1rem)",
-          }}
-        >
-          <div
-            style={{
-              backdropFilter: "blur(4px) brightness(50%)",
-              flexGrow: 2,
-              padding: "1rem",
-              borderRadius: "10px",
-              overflowY: "scroll",
-              display: "flex",
-              flexWrap: "wrap",
-            }}
-          >
-            {allPerformances.map((performance) => {
-              if (performance.performance.rootUrl === "stub") {
-                return <></>;
-              }
-
-              return (
-                <VideoLink
-                  rootUrl="/watch/show-choir/"
-                  video={{
-                    id: performance.performance.id,
-                    song: performance.event.name,
-                    venue: performance.performance.title,
-                    date: performance.event.date as any,
-                    performanceOrder: 0,
-                    rootUrl: performance.performance.rootUrl as any,
-                    suffix: "",
-                  }}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </Container>
+      {choir.bio ? (
+        <span
+          dangerouslySetInnerHTML={{ __html: choir.bio }}
+          style={{ display: "flex", flexDirection: "column", gap: ".5rem", marginBottom: "1rem" }}
+        />
+      ) : (
+        <></>
+      )}
+      <h2>Directors</h2>
+      <ul style={{ marginLeft: "1rem" }}>
+        {directors.map((director) => (
+          <li>{director}</li>
+        ))}
+      </ul>
+      <h2>Choreographers</h2>
+      <ul style={{ marginLeft: "1rem" }}>
+        {choreographers.map((choreographer) => (
+          <li>{choreographer}</li>
+        ))}
+      </ul>
+      <br />
+      <RepertoireList choir={choir} />
     </div>
   );
 };

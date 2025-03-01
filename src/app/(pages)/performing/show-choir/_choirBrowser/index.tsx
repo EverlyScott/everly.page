@@ -1,8 +1,8 @@
 import getDB from "@/db";
 import Link from "next/link";
-import styles from "./videoBrowser.module.scss";
+import styles from "./choirBrowser.module.scss";
 
-const VideoBrowser: React.FC = async () => {
+const ChoirBrowser: React.FC = async () => {
   const db = await getDB();
 
   const choirs = await db.selectFrom("showChoirGroups").selectAll().execute();
@@ -17,14 +17,16 @@ const VideoBrowser: React.FC = async () => {
         alignItems: "center",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "4rem", flexWrap: "wrap" }}>
+      <div
+        style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", gap: "4rem", flexWrap: "wrap" }}
+      >
         {choirs.map((choir) => {
           return (
-            <Link href={`/performing/show-choir/${choir.id}/`} className={styles.video} key={choir.id}>
+            <Link href={`/performing/show-choir/${choir.id}/`} className={styles.choir} key={choir.id}>
               <div
                 style={{
-                  maxWidth: "20vw",
-                  width: "500px",
+                  width: "100%",
+                  height: "100%",
                   backgroundImage: `url(${choir.imageUrl})`,
                   aspectRatio: 16 / 9,
                   backgroundSize: "cover",
@@ -34,7 +36,7 @@ const VideoBrowser: React.FC = async () => {
               />
               {/* <img src={choir.imageUrl} style={{ maxWidth: "20vw", width: "500px" }} /> */}
               {/* Using multiple jsx variables breaks the wavy underline, so we're just passing one complete string*/}
-              <h1>{`${choir.name} ${choir.season}`}</h1>
+              <h1 style={{ textAlign: "center" }}>{`${choir.name} ${choir.season}`}</h1>
             </Link>
           );
         })}
@@ -43,4 +45,4 @@ const VideoBrowser: React.FC = async () => {
   );
 };
 
-export default VideoBrowser;
+export default ChoirBrowser;
