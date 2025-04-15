@@ -1,17 +1,37 @@
 "use server";
 
-import getDB, { ConfluenceVideosTable } from "@/db";
-import { Selectable } from "kysely";
+import db, { ConfluencePerformance, ConfluenceVenue, ConfluenceVideo, Expand } from "@/db";
+import { RecordModel } from "pocketbase";
 
-const fetchRelatedVideos = async (video: Selectable<ConfluenceVideosTable>) => {
-  const db = await getDB();
+type FullyExpandedVideo = Expand<
+  ConfluenceVideo,
+  {
+    performance: Expand<
+      ConfluencePerformance,
+      {
+        venue: ConfluenceVenue;
+      }
+    >;
+  }
+>;
 
-  const sameSong = await db.selectFrom("confluenceVideos").selectAll().where("song", "==", video.song).execute();
+const fetchRelatedVideos = async (
+  video: Expand<
+    ConfluenceVideo & RecordModel,
+    {
+      performance: ConfluencePerformance;
+    }
+  >
+) => {
+  const sameSong = await db
+    .collection("confluenceVideos")
+    .getFullList<FullyExpandedVideo>({ filter: `song="${video.song}"`, expand: "performance,performance.venue" });
   const samePerformance = await db
-    .selectFrom("confluenceVideos")
-    .selectAll()
-    .where("venue", "==", video.venue)
-    .execute();
+    .collection("confluenceVideos")
+    .getFullList<FullyExpandedVideo>({
+      filter: `performance="${video.performance}"`,
+      expand: "performance,performance.venue",
+    });
 
   return { sameSong, samePerformance };
 };

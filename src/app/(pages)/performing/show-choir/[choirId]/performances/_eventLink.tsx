@@ -1,17 +1,20 @@
-import { ShowChoirEventsTable, ShowChoirGroupsTable, ShowChoirPerformancesTable } from "@/db";
+import { ShowChoirEvents, ShowChoirGroups, ShowChoirPerformances } from "@/db";
 import Link from "next/link";
 import styles from "./_link.module.scss";
+import moment from "moment";
 
 interface IProps {
   i: number;
   selected: boolean;
-  choir: ShowChoirGroupsTable;
-  event: ShowChoirEventsTable;
-  performances: ShowChoirPerformancesTable[];
+  choir: ShowChoirGroups;
+  event: ShowChoirEvents;
+  performances: ShowChoirPerformances[];
 }
 
 const EventLink: React.FC<IProps> = ({ i, selected, choir, event, performances }) => {
-  const firstWorkingPerformance = performances.find((performance) => performance.rootUrl !== "stub/");
+  const firstWorkingPerformance = performances.find(
+    (performance) => performance.rootUrl !== "https://example.com/stub/"
+  );
 
   if (!firstWorkingPerformance) {
     // If there are only stub performances then there's no point in showing the event.
@@ -41,7 +44,7 @@ const EventLink: React.FC<IProps> = ({ i, selected, choir, event, performances }
         />
         <p style={{ fontWeight: "bold" }}>{event.name}</p>
         <span style={{ textDecoration: "none!important" }}>
-          <p style={{ textDecoration: "none!important" }}>{event.date}</p>
+          <p style={{ textDecoration: "none!important" }}>{moment.utc(event.date).format("MMM Do, YYYY")}</p>
         </span>
       </div>
     </Link>

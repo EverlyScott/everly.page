@@ -1,12 +1,12 @@
 "use client";
 
-import { ConfluenceVideosTable } from "@/db";
+import { ConfluencePerformance, ConfluenceVenue, ConfluenceVideo, Expand } from "@/db";
 import Link from "next/link";
 import styles from "./_videoLink.module.scss";
 import { useMediaQuery } from "usehooks-ts";
 
 interface IProps {
-  video: ConfluenceVideosTable;
+  video: Expand<ConfluenceVideo, { performance: Expand<ConfluencePerformance, { venue: ConfluenceVenue }> }>;
   rootUrl: `${string}/`;
 }
 
@@ -28,7 +28,7 @@ const VideoLink: React.FC<IProps> = ({ video, rootUrl }) => {
           {video.suffix ? ` ${video.suffix}` : ""}
         </p>
         <span style={{ textDecoration: "none!important" }}>
-          <p style={{ textDecoration: "none!important" }}>{video.venue}</p>
+          <p style={{ textDecoration: "none!important" }}>{video.expand.performance.name}</p>
         </span>
       </div>
     </Link>

@@ -10,25 +10,59 @@
   max-width: 2000px;
   max-height: calc(100vh - 8rem);
 
-  @media (max-width: 900px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
     width: 100%;
   }
 }
 
+.venuesContainer {
+  overflow: hidden auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    overflow: auto auto;
+  }
+}
+
 .venues {
-  max-height: 100%;
+  width: auto;
   flex-shrink: 0;
   backdrop-filter: brightness(150%);
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   justify-content: center;
+  gap: 1rem;
 
-  @media (max-width: 900px) {
+  .seasonTextContainer {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: -1rem;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  @media (max-width: 1200px) {
+    width: max-content;
     flex-direction: row;
-    overflow-x: auto;
+
+    h2 {
+      text-align: right;
+      max-width: 100px;
+      position: relative;
+      bottom: 0.25rem; // Without this the text looks too low even if it's perfectly centered
+    }
+
+    .seasonTextContainer {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -36,10 +70,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem;
   border-radius: 10px;
+  height: 100%;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1200px) {
     flex-direction: column;
   }
 }

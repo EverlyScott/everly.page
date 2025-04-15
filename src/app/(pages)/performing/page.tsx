@@ -106,7 +106,7 @@ const Music: NextPage = () => {
           </h1>
         </Link>
         {/* <p style={{ fontSize: "smaller", fontStyle: "italic" }}>(image credit goes to Theresa M. Smerud)</p> */}
-        <div
+        {/* <div
           style={{
             position: "absolute",
             width: "100%",
@@ -114,9 +114,7 @@ const Music: NextPage = () => {
             display: "flex",
             justifyContent: "flex-end",
           }}
-        >
-          {/* <Divider color="#f4f3f2" /> */}
-        </div>
+        ></div> */}
       </div>
     </>
   );

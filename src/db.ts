@@ -1,30 +1,46 @@
-import { Generated, Kysely, SqliteDialect } from "kysely";
-import SQLite from "better-sqlite3";
-import { useState } from "react";
-import fs from "fs";
-import createDb from "./createDb";
-import { z } from "zod";
+import "dotenv/config";
+import PocketBase, { BaseModel, RecordModel, RecordService } from "pocketbase";
 
-interface Database {
-  confluenceVideos: ConfluenceVideosTable;
-  bandVideos: BandChoirVideosTable;
-  choirVideos: BandChoirVideosTable;
-  showChoirPerformances: ShowChoirPerformancesTable;
-  showChoirEvents: ShowChoirEventsTable;
-  showChoirGroups: ShowChoirGroupsTable;
+type NewRecordModel = RecordModel & { expand?: undefined };
+
+export type Expand<T, E extends { [key in keyof T]?: Record<string, any> }> = T & {
+  expand?: Partial<E>;
+};
+
+export interface Collections {
+  confluencePerformances: ConfluencePerformance;
+  confluenceVenues: ConfluenceVenue;
+  confluenceVideos: ConfluenceVideo;
+  bandVideos: BandChoirVideos;
+  choirVideos: BandChoirVideos;
+  showChoirPerformances: ShowChoirPerformances;
+  showChoirEvents: ShowChoirEvents;
+  showChoirGroups: ShowChoirGroups;
 }
 
-export interface ConfluenceVideosTable {
+export interface ConfluenceVenue {
+  id: string;
+  name: string;
+}
+
+export interface ConfluencePerformance {
+  id: string;
+  name: string;
+  venue: string;
+  season: number;
+  date: string;
+}
+
+export interface ConfluenceVideo {
   id: string;
   song: string;
-  suffix: string | null;
-  venue: string;
+  suffix: string;
+  performance: string;
   performanceOrder: number;
-  date: `${number}/${number}/${number}`;
-  rootUrl: `${string}/`;
+  rootUrl: string;
 }
 
-export interface BandChoirVideosTable {
+export interface BandChoirVideos {
   id: string;
   isFullPerformance: boolean;
   title: string;
@@ -33,28 +49,28 @@ export interface BandChoirVideosTable {
   rootUrl: `${string}/`;
 }
 
-export interface ShowChoirPerformancesTable {
+export interface ShowChoirPerformances {
   id: string;
-  eventId: string;
+  event: string;
   title?: string;
   rootUrl: `${string}/`;
 }
 
-export interface ShowChoirEventsTable {
+export interface ShowChoirEvents {
   id: string;
   name: string;
-  groupId: string;
+  group: string;
   /**
    * `-2` = Exhibition
    * `-1` = Non competitive
    * `0` = Did not place
    */
   place: number;
-  captions: string;
-  date: `${number}-${number}-${number}`;
+  captions: string[] | Record<never, never>;
+  date: string;
 }
 
-export interface ShowChoirGroupsTable {
+export interface ShowChoirGroups {
   id: string;
   name: string;
   season: number;
@@ -62,9 +78,9 @@ export interface ShowChoirGroupsTable {
   secondaryColor: `#${string}`;
   imageUrl: string;
   bio?: string;
-  directors: string;
-  choreographers: string;
-  repertoire: string;
+  directors: string[];
+  choreographers: string[];
+  repertoire: ShowChoirRepertoire[];
 }
 
 export interface ShowChoirSong {
@@ -83,32 +99,14 @@ export interface ShowChoirMedley {
 
 export type ShowChoirRepertoire = ShowChoirSong | ShowChoirMedley;
 
-if (fs.existsSync("main.sqlite")) {
-  fs.rmSync("main.sqlite");
+class TypedPocketBase<T = { [key: string]: NewRecordModel }> extends PocketBase {
+  collection<M extends Extract<keyof T, string>>(idOrName: M): RecordService<T[M] & NewRecordModel> {
+    return super.collection<T[M] & NewRecordModel>(idOrName);
+  }
 }
 
-const database = new SQLite("main.sqlite");
+const db = new TypedPocketBase<Collections>(process.env.POCKETBASE_URL);
 
-const dialect = new SqliteDialect({
-  database,
-});
+db.autoCancellation(false);
 
-const db = new Kysely<Database>({
-  dialect,
-});
-
-let initialized = false;
-
-export type DB = typeof db;
-
-export const getDB = async () => {
-  if (initialized === false) {
-    await createDb(db);
-
-    initialized = true;
-  }
-
-  return db;
-};
-
-export default getDB;
+export default db;

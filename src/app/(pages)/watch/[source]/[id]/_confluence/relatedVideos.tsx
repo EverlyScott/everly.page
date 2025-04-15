@@ -1,22 +1,22 @@
 "use client";
 
-import { ConfluenceVideosTable, DB } from "@/db";
-import { Selectable } from "kysely";
+import { ConfluencePerformance, ConfluenceVideo, Expand } from "@/db";
 import VideoLink from "../../../../performing/confluence/_videoLink";
 import fetchRelatedVideos from "./fetchRelatedVideos";
 import { use, useEffect, useState } from "react";
 import LoadingRelatedVideos from "./loadingRelatedVideos";
 import useIsSmallScreen from "@/hooks/useIsSmallScreen";
 import { useMediaQuery } from "usehooks-ts";
+import { RecordModel } from "pocketbase";
 
 interface IProps {
-  video: Selectable<ConfluenceVideosTable>;
+  video: Expand<ConfluenceVideo & RecordModel, { performance: ConfluencePerformance & RecordModel }>;
   id: string;
 }
 
 const RelatedVideos: React.FC<IProps> = ({ id, video }) => {
-  const [sameSong, setSameSong] = useState<Selectable<ConfluenceVideosTable>[]>();
-  const [samePerformance, setSamePerformance] = useState<Selectable<ConfluenceVideosTable>[]>();
+  const [sameSong, setSameSong] = useState<ConfluenceVideo[]>();
+  const [samePerformance, setSamePerformance] = useState<ConfluenceVideo[]>();
   const isSmallScreen = useMediaQuery("(max-width: 1200px)");
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const RelatedVideos: React.FC<IProps> = ({ id, video }) => {
         <h2 style={{ textAlign: "center" }}>Same Song</h2>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
           {sameSong.map((currentVideo) => {
+            console.log(currentVideo);
             if (currentVideo.id === video.id) {
               return <></>;
             }

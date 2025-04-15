@@ -1,26 +1,53 @@
-import getDB from "@/db";
+import db, {
+  ConfluencePerformance,
+  ConfluenceVenue,
+  ConfluenceVideo,
+  Expand,
+  ShowChoirEvents,
+  ShowChoirGroups,
+  ShowChoirPerformances,
+} from "@/db";
 import { GenericVideo } from "@/types";
 import RelatedVideos from "./_confluence/relatedVideos";
+import { RecordModel } from "pocketbase";
 
 interface Source {
   [key: string]: (id: string) => Promise<GenericVideo & { backgroundColor?: string; relatedVideos?: JSX.Element }>;
 }
 
+type ExpandedConfluenceVideo = Expand<
+  ConfluenceVideo & RecordModel,
+  {
+    performance: Expand<
+      ConfluencePerformance & RecordModel,
+      {
+        venue: ConfluenceVenue & RecordModel;
+      }
+    >;
+  }
+>;
+
+type ExpandedShowChoirPerformance = Expand<
+  ShowChoirPerformances & RecordModel,
+  {
+    event: Expand<
+      ShowChoirEvents & RecordModel,
+      {
+        group: ShowChoirGroups & RecordModel;
+      }
+    >;
+  }
+>;
+
 const sources: Source = {
   confluence: async (id: string) => {
-    const db = await getDB();
+    const video = await db
+      .collection("confluenceVideos")
+      .getFirstListItem<ExpandedConfluenceVideo>(`id="${id}"`, { expand: "performance, performance.venue" });
 
-    const videos = await db.selectFrom("confluenceVideos").selectAll().where("id", "==", id).execute();
-
-    if (!videos[0]) {
+    if (!video) {
       throw new Error("404");
     }
-
-    if (videos.length > 1) {
-      throw new Error(`Multiple performances found with ID ${id}`);
-    }
-
-    const video = videos[0];
 
     return {
       fullTitle: `${video.performanceOrder}. ${video.song}${video.suffix ? ` ${video.suffix}` : ""}`,
@@ -35,43 +62,25 @@ const sources: Source = {
     };
   },
   "show-choir": async (id) => {
-    const db = await getDB();
+    const performance = await db
+      .collection("showChoirPerformances")
+      .getFirstListItem<ExpandedShowChoirPerformance>(`id="${id}"`, { expand: "event, event.group" });
 
-    const performances = await db.selectFrom("showChoirPerformances").selectAll().where("id", "==", id).execute();
-
-    if (!performances[0]) {
+    if (!performance) {
       throw new Error("404");
     }
 
-    if (performances.length > 1) {
-      throw new Error(`Multiple performances found with ID ${id}`);
+    const { event } = performance.expand;
+
+    if (!event) {
+      throw new Error(`No event found with ID ${performance.event}`);
     }
 
-    const performance = performances[0];
+    const { group } = event.expand;
 
-    const events = await db.selectFrom("showChoirEvents").selectAll().where("id", "==", performance.eventId).execute();
-
-    if (!events[0]) {
-      throw new Error(`No event found with ID ${performance.eventId}`);
+    if (!group) {
+      throw new Error(`No group found with ID ${event.group}`);
     }
-
-    if (events.length > 1) {
-      throw new Error(`Multiple events found with ID ${performance.eventId}`);
-    }
-
-    const event = events[0];
-
-    const groups = await db.selectFrom("showChoirGroups").selectAll().where("id", "==", event.groupId).execute();
-
-    if (!groups[0]) {
-      throw new Error(`No group found with ID ${event.groupId}`);
-    }
-
-    if (groups.length > 1) {
-      throw new Error(`Multiple groups found with ID ${event.groupId}`);
-    }
-
-    const group = groups[0];
 
     return {
       fullTitle: `${event.name}${performance.title ? ` ${performance.title}` : ""}`,

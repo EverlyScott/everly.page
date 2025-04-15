@@ -1,21 +1,19 @@
-import { ShowChoirGroupsTable, ShowChoirMedley, ShowChoirRepertoire, ShowChoirSong } from "@/db";
+import { ShowChoirGroups, ShowChoirMedley, ShowChoirRepertoire, ShowChoirSong } from "@/db";
 import Link from "next/link";
 import { CSSProperties } from "react";
 import PlayButton, { CurrentlyPlayingProvider } from "./_ytEmbed";
 
 interface IProps {
-  choir: ShowChoirGroupsTable;
+  choir: ShowChoirGroups;
 }
 
 const RepertoireList: React.FC<IProps> = ({ choir }) => {
-  const repertoire: ShowChoirRepertoire[] = JSON.parse(choir.repertoire);
-
   return (
     <>
       <h2>Repertoire</h2>
       <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
         <CurrentlyPlayingProvider>
-          {repertoire.map((song, i) => {
+          {choir.repertoire.map((song, i) => {
             if (song.type === "medley") {
               return <Medley i={i} choir={choir} medley={song} key={song.title} />;
             }
@@ -30,7 +28,7 @@ const RepertoireList: React.FC<IProps> = ({ choir }) => {
 
 interface IMedleyProps {
   i: number;
-  choir: ShowChoirGroupsTable;
+  choir: ShowChoirGroups;
   medley: ShowChoirMedley;
 }
 
@@ -59,7 +57,7 @@ const Medley: React.FC<IMedleyProps> = ({ i, choir, medley }) => {
 
 interface ISongProps {
   i: number;
-  choir: ShowChoirGroupsTable;
+  choir: ShowChoirGroups;
   song: ShowChoirSong;
   sub?: boolean;
 }

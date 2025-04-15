@@ -1,76 +1,100 @@
-import db, { ConfluenceVideosTable, getDB } from "@/db";
+import db, { ConfluencePerformance, ConfluenceVenue, ConfluenceVideo } from "@/db";
 import { NextPage } from "next";
 import VideoLink from "../_videoLink";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./videoBrowser.module.scss";
 import { redirect } from "next/navigation";
+import moment from "moment";
 
 interface IProps {
   Tab?: string;
 }
 
 export interface Venue {
-  venue: ConfluenceVideosTable["venue"];
-  date: ConfluenceVideosTable["date"];
-  videos: ConfluenceVideosTable[];
+  venue: ConfluenceVenue;
+  date: ConfluencePerformance["date"];
+  videos: ConfluenceVideo[];
 }
 
 const VideoBrowser: React.FC<IProps> = async ({ Tab }) => {
   const tab = parseInt(Tab ?? "0");
 
-  const db = await getDB();
+  // Prefetch all data first
+  const fullVenues = await db.collection("confluenceVenues").getFullList();
+  const fullPerformances = await db.collection("confluencePerformances").getFullList();
+  const fullVideos = await db.collection("confluenceVideos").getFullList();
 
-  const videos = await db.selectFrom("confluenceVideos").selectAll().execute();
-  let finishedVenues: ConfluenceVideosTable["venue"][] = [];
-  const venues: Venue[] = videos
-    .map((video) => {
-      if (finishedVenues.includes(video.venue)) {
-        return undefined;
-      }
+  const performances = fullPerformances.map((performance) => {
+    const venue = fullVenues.find((venue) => venue.id === performance.venue);
 
-      finishedVenues.push(video.venue);
-      return {
-        venue: video.venue,
-        date: video.date,
-        videos: videos.filter((subVideo) => subVideo.venue === video.venue),
-      };
-    })
-    .filter((video) => video !== undefined);
+    const videos = fullVideos.filter((video) => video.performance === performance.id);
 
-  const selectedVenue = venues[tab];
+    return {
+      venue,
+      performance,
+      videos,
+    };
+  });
+
+  const selectedVenue = performances[tab];
 
   if (!selectedVenue) {
     return redirect("./?tab=0#videos");
   }
 
+  let lastSeason = 0;
+
   return (
     <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div id="videos" className={styles.videos}>
-        <div className={styles.venues}>
-          {venues.map((venue, i) => {
-            const selected = i === tab;
-            return (
-              <Link href={`./?tab=${i}#videos`} style={{ color: "#ffffff" }} key={i}>
-                <div
-                  className={styles.venue}
-                  style={{
-                    backgroundColor: selected ? "#ffffff40" : undefined,
-                  }}
-                >
-                  <img
-                    src={`${venue.videos[0].rootUrl}thumb.avif`}
-                    width="100px"
-                    style={{ borderRadius: "10px", aspectRatio: 16 / 9 }}
-                  />
-                  <div>
-                    <p>{venue.venue}</p>
-                    <p style={{ fontStyle: "italic", fontSize: "0.8rem" }}>{venue.videos[0].date}</p>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+        <div className={styles.venuesContainer}>
+          <div className={styles.venues}>
+            {performances.map((performance, i) => {
+              const selected = i === tab;
+              return (
+                <>
+                  {lastSeason !== performance.performance.season ? (
+                    (() => {
+                      lastSeason = performance.performance.season;
+                      return (
+                        <div className={styles.seasonTextContainer}>
+                          <h2>{performance.performance.season} Season</h2>
+                        </div>
+                      );
+                    })()
+                  ) : (
+                    <></>
+                  )}
+                  <Link href={`./?tab=${i}#videos`} style={{ color: "#ffffff" }} key={i}>
+                    <div
+                      className={styles.venue}
+                      style={{
+                        backgroundColor: selected ? "#ffffff40" : undefined,
+                      }}
+                    >
+                      <img
+                        src={`${performance.videos[0].rootUrl}thumb.avif`}
+                        width="100px"
+                        style={{ borderRadius: "10px", aspectRatio: 16 / 9 }}
+                      />
+                      <div>
+                        <p>{performance.performance.name}</p>
+                        {performance.venue.name !== performance.performance.name ? (
+                          <p style={{ fontSize: "0.8rem" }}>@ {performance.venue.name}</p>
+                        ) : (
+                          <></>
+                        )}
+                        <p style={{ fontStyle: "italic", fontSize: "0.8rem" }}>
+                          {moment.utc(performance.performance.date).format("MMM Do, YYYY")}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </>
+              );
+            })}
+          </div>
         </div>
         <div
           style={{
@@ -79,14 +103,23 @@ const VideoBrowser: React.FC<IProps> = async ({ Tab }) => {
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
-            flexGrow: 1,
+            flexGrow: 2,
             justifyContent: "center",
             alignItems: "center",
             padding: "1rem",
           }}
         >
           {selectedVenue.videos.map((video) => {
-            return <VideoLink video={video} rootUrl="/watch/confluence/" key={video.id} />;
+            return (
+              <VideoLink
+                video={{
+                  ...video,
+                  expand: { performance: { ...selectedVenue.performance, expand: { venue: selectedVenue.venue } } },
+                }}
+                rootUrl="/watch/confluence/"
+                key={video.id}
+              />
+            );
           })}
         </div>
       </div>

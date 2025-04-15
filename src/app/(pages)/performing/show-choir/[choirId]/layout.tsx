@@ -1,5 +1,5 @@
 import Container from "@/components/Container";
-import getDB from "@/db";
+import db from "@/db";
 import { notFound } from "next/navigation";
 import { NextPage } from "next";
 import { headers } from "next/headers";
@@ -12,9 +12,7 @@ interface IProps {
 const Choir: NextPage<React.PropsWithChildren<IProps>> = async ({ children, params }) => {
   const { choirId } = await params;
 
-  const db = await getDB();
-
-  const choirs = await db.selectFrom("showChoirGroups").selectAll().where("id", "==", choirId).execute();
+  const choirs = await db.collection("showChoirGroups").getFullList({ filter: `id="${choirId}"` });
 
   if (choirs.length > 1) {
     throw new Error(`Multiple choirs found with id ${choirId}`);
@@ -31,7 +29,7 @@ const Choir: NextPage<React.PropsWithChildren<IProps>> = async ({ children, para
       style={{
         paddingTop: "100px",
         width: "100vw",
-        height: "100vh",
+        minHeight: "100vh",
         color: choir.primaryColor,
         backgroundColor: choir.secondaryColor,
         backgroundImage: `url("${choir.imageUrl}")`,
@@ -41,7 +39,7 @@ const Choir: NextPage<React.PropsWithChildren<IProps>> = async ({ children, para
         justifyContent: "center",
       }}
     >
-      <Container>
+      <Container style={{ display: "flex", flexDirection: "column" }}>
         <h1>
           {choir.name} {choir.season}
         </h1>
@@ -52,8 +50,10 @@ const Choir: NextPage<React.PropsWithChildren<IProps>> = async ({ children, para
             justifyContent: "space-evenly",
             alignItems: "center",
             width: "100%",
-            height: "calc(100vh - 164px - 1rem)",
+            marginBottom: "1rem",
+            // height: "calc(100vh - 164px - 1rem)",
             gap: "1rem",
+            flexGrow: 1,
           }}
         >
           <PageSwitcher choir={choir} />

@@ -7,15 +7,15 @@
   },
   "dependencies": {
     "@vidstack/react": "^1.12.12",
-    "better-sqlite3": "^11.7.0",
+    "dotenv": "^16.4.7",
     "hls.js": "^1.5.19",
-    "kysely": "^0.27.5",
+    "moment": "^2.30.1",
     "next": "14.1.0",
+    "pocketbase": "^0.25.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.71.1",
-    "usehooks-ts": "^3.1.0",
-    "zod": "^3.24.1"
+    "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.12",

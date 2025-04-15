@@ -1,11 +1,9 @@
-import getDB from "@/db";
+import db from "@/db";
 import Link from "next/link";
 import styles from "./choirBrowser.module.scss";
 
 const ChoirBrowser: React.FC = async () => {
-  const db = await getDB();
-
-  const choirs = await db.selectFrom("showChoirGroups").selectAll().execute();
+  const choirs = await db.collection("showChoirGroups").getFullList();
 
   return (
     <div

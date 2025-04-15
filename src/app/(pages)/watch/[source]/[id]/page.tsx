@@ -66,8 +66,8 @@ const Video: NextPage<IProps> = async ({ params }) => {
       return notFound();
     }
     return (
-      <div>
-        <h1>{err}</h1>
+      <div style={{ width: "100%", height: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <h1>{err.toString()}</h1>
       </div>
     );
   }

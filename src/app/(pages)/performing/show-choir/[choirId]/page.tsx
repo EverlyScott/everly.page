@@ -1,4 +1,4 @@
-import getDB, { ShowChoirRepertoire } from "@/db";
+import db, { ShowChoirRepertoire } from "@/db";
 import { NextPage } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
@@ -11,9 +11,7 @@ interface IProps {
 const Choir: NextPage<IProps> = async ({ params }) => {
   const { choirId } = await params;
 
-  const db = await getDB();
-
-  const choirs = await db.selectFrom("showChoirGroups").selectAll().where("id", "==", choirId).execute();
+  const choirs = await db.collection("showChoirGroups").getFullList({ filter: `id="${choirId}"` });
 
   if (choirs.length > 1) {
     throw new Error(`Multiple choirs found with id ${choirId}`);
@@ -25,18 +23,13 @@ const Choir: NextPage<IProps> = async ({ params }) => {
 
   const choir = choirs[0];
 
-  const directors: string[] = JSON.parse(choir.directors);
-  const choreographers: string[] = JSON.parse(choir.choreographers);
-
   return (
     <div
       style={{
         backgroundColor: `${choir.secondaryColor}80`,
         backdropFilter: "blur(4px) brightness(50%)",
-        maxHeight: "90%",
         width: "100%",
         borderRadius: "10px",
-        overflowY: "scroll",
         overflowX: "hidden",
         padding: "1rem",
       }}
@@ -51,13 +44,13 @@ const Choir: NextPage<IProps> = async ({ params }) => {
       )}
       <h2>Directors</h2>
       <ul style={{ marginLeft: "1rem" }}>
-        {directors.map((director) => (
+        {choir.directors.map((director) => (
           <li>{director}</li>
         ))}
       </ul>
       <h2>Choreographers</h2>
       <ul style={{ marginLeft: "1rem" }}>
-        {choreographers.map((choreographer) => (
+        {choir.choreographers.map((choreographer) => (
           <li>{choreographer}</li>
         ))}
       </ul>

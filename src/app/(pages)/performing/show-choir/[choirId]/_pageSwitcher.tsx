@@ -1,12 +1,12 @@
 "use client";
 
-import { ShowChoirGroupsTable } from "@/db";
+import { ShowChoirGroups } from "@/db";
 import { usePathname } from "next/navigation";
 import styles from "./layout.module.scss";
 import Link from "next/link";
 
 interface IProps {
-  choir: ShowChoirGroupsTable;
+  choir: ShowChoirGroups;
 }
 
 const PageSwitcher: React.FC<IProps> = ({ choir }) => {

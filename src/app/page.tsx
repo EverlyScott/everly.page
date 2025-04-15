@@ -110,31 +110,29 @@ const Home: NextPage = () => {
           <br />
           <div style={{ maxWidth: "80vw", textAlign: "left", display: "flex", flexDirection: "column", gap: "1rem" }}>
             <p>
-              I am a senior in high school and have been interested in computers since i was a kid; I made my first
-              website in HTML at around 10 years old and just went on from there.
-            </p>
-            <br />
-            <p>
-              When it comes to music, I had general music all through elementary school, and then took choir and band in
-              both middle and high school. I also took a music theory class my junior year and am taking a rock ensemble
-              class where we learn how to play guitar, bass, keys, and drums this year. I play tuba in band and I am a
-              baritone in choir.
+              I'm a high school senior with a lifelong passion for computers. I built my first website in HTML when I
+              was around 10 years old, and I've been exploring technology ever since.
             </p>
             <p>
-              In freshman year, I joined our school's show band and learned how to play trumpet, which i played for 2
-              years before switching to drums my junior year; this year I'm playing aux percussion. I've also
-              experimented with saxophone and trombone. As a kid I also took piano lessons on and off and still play for
+              Music has also been a big part of my life. I started with general music in elementary school, then
+              continued with choir and band throughout middle and high school. I play tuba in band and sing baritone in
+              choir. In my junior year, I took a music theory class, and this year, I was in a rock ensemble class where
+              I learnt guitar, bass, keys, and drums.
+            </p>
+            <p>
+              Freshman year, I joined our school's show band and picked up the trumpet, which I played for two years
+              before switching to drums in junior year. Now, I play auxiliary percussion. I've also experimented with
+              saxophone and trombone, and as a kid, I took piano lessons on and off—something I still enjoy playing for
               fun.
             </p>
             <p>
-              My Junior year I joined Confluence. Confluence is a student lead cover band but our teachers help us with
-              funding and help us learn the music. We get new music and members every year as seniors graduate so we
-              have a new show every year.
+              During my junior year, I joined Confluence, a student-led cover band. While we organize the music
+              ourselves, our teachers support us with funding and guidance. Each year, we welcome new members and put
+              together a fresh setlist as seniors graduate.
             </p>
-            <br />
             <p>
-              I've only recently gotten into photography in the past 5 or so years, but I find it really fun capturing
-              the beauty in things. I mainly just take pictures when we're on vacation.
+              Photography is a more recent interest of mine—I've been into it for about five years. I love capturing the
+              beauty in everyday moments, especially when traveling.
             </p>
           </div>
         </div>

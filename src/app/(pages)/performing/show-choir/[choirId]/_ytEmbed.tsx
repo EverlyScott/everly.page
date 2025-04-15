@@ -1,10 +1,13 @@
 "use client";
 
+import useIsSmallScreen from "@/hooks/useIsSmallScreen";
 import { createContext, MouseEventHandler, useContext, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-interface IProps {
+interface IButtonProps {
   youtubeId: string;
+  buttonColor: string;
+  buttonTextColor: string;
 }
 
 const currentlyPlayingContext = createContext<
@@ -17,7 +20,7 @@ export const CurrentlyPlayingProvider: React.FC<React.PropsWithChildren> = ({ ch
   return <currentlyPlayingContext.Provider value={[playing, setPlaying]}>{children}</currentlyPlayingContext.Provider>;
 };
 
-const PlayButton: React.FC<IProps> = ({ youtubeId }) => {
+const PlayButton: React.FC<IButtonProps> = ({ youtubeId, buttonColor, buttonTextColor }) => {
   const [playing, setPlaying] = useContext(currentlyPlayingContext);
 
   const handlePlay = () => {
@@ -34,8 +37,19 @@ const PlayButton: React.FC<IProps> = ({ youtubeId }) => {
 
   return (
     <>
-      <button className="playpause" onClick={handlePlay}>
-        {playing === youtubeId ? "stop" : "play"}
+      <button
+        style={{
+          all: "unset",
+          backgroundColor: buttonColor,
+          backdropFilter: "blur(4px) brightness(50%)",
+          borderRadius: "10px",
+          padding: "1rem .5rem",
+          color: buttonTextColor,
+        }}
+        className="playpause"
+        onClick={handlePlay}
+      >
+        {playing === youtubeId ? "Stop" : "Play"}
       </button>
       <noscript>
         <style dangerouslySetInnerHTML={{ __html: ".playpause{display:none;}" }} />
@@ -45,16 +59,20 @@ const PlayButton: React.FC<IProps> = ({ youtubeId }) => {
   );
 };
 
-const Embed: React.FC<IProps> = ({ youtubeId }) => {
+interface IEmbedProps {
+  youtubeId: string;
+}
+
+const Embed: React.FC<IEmbedProps> = ({ youtubeId }) => {
   const [_, setPlaying] = useContext(currentlyPlayingContext);
   const [xy, setXY] = useState<[number, number]>();
   const [dragging, setDragging] = useState(false);
   const [width, setWidth] = useState(1);
   const [height, setHeight] = useState(1);
+  const isSmallScreen = useIsSmallScreen();
 
   const handleMouseDown: MouseEventHandler<HTMLDivElement> = (evt) => {
-    console.log(evt.currentTarget);
-    if (evt.currentTarget.id === "close") {
+    if (isSmallScreen) {
       return;
     }
     setWidth(evt.currentTarget.clientWidth);
@@ -64,12 +82,18 @@ const Embed: React.FC<IProps> = ({ youtubeId }) => {
   };
 
   const handleMouseMove = (evt: MouseEvent) => {
+    if (isSmallScreen) {
+      return;
+    }
     if (dragging) {
       setXY([evt.pageX - width / 2, evt.pageY - height / 2]);
     }
   };
 
   const handleMouseUp: MouseEventHandler<HTMLDivElement> = (evt) => {
+    if (isSmallScreen) {
+      return;
+    }
     setDragging(false);
   };
 
@@ -82,6 +106,9 @@ const Embed: React.FC<IProps> = ({ youtubeId }) => {
   });
 
   const handleDoubleClick = () => {
+    if (isSmallScreen) {
+      return;
+    }
     setXY(undefined);
   };
 
@@ -95,6 +122,7 @@ const Embed: React.FC<IProps> = ({ youtubeId }) => {
         backgroundColor: "#000000",
         userSelect: "none",
         zIndex: 99999,
+        width: isSmallScreen ? "100%" : undefined,
       }}
     >
       <div
@@ -119,7 +147,7 @@ const Embed: React.FC<IProps> = ({ youtubeId }) => {
         </button>
       </div>
       <iframe
-        width="426"
+        width={isSmallScreen ? "100%" : "426"}
         height="240"
         src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}
         title="YouTube video player"

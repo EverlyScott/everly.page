@@ -1,10 +1,10 @@
-import getDB, { ShowChoirEventsTable, ShowChoirGroupsTable, ShowChoirPerformancesTable } from "@/db";
+import db, { ShowChoirEvents, ShowChoirGroups, ShowChoirPerformances } from "@/db";
 import { NextPage } from "next";
 import { notFound, redirect } from "next/navigation";
 import PerformanceLink from "./_performanceLink";
 import { getNumberWithOrdinal } from "@/tools/getNumberWithOrdinal";
-import { z } from "zod";
 import EventLink from "./_eventLink";
+import moment from "moment";
 
 interface IProps {
   params: Promise<{ choirId: string }>;
@@ -14,36 +14,22 @@ interface IProps {
 const PerformanceBrowser: NextPage<IProps> = async ({ params, searchParams }) => {
   const { choirId } = await params;
 
-  const db = await getDB();
+  const choir = await db.collection("showChoirGroups").getFirstListItem(`id="${choirId}"`);
 
-  const choirs = await db.selectFrom("showChoirGroups").selectAll().where("id", "==", choirId).execute();
+  const partialEvents = await db.collection("showChoirEvents").getFullList({ filter: `group="${choir.id}"` });
 
-  if (choirs.length > 1) {
-    throw new Error(`Multiple choirs found with id ${choirId}`);
+  if (partialEvents.length < 1) {
+    throw new Error(`No events found for choir with id ${choirId}`);
   }
 
-  if (choirs.length < 1) {
-    return notFound();
-  }
-
-  const choir = choirs[0];
-
-  const partialEvents = await db.selectFrom("showChoirEvents").selectAll().where("groupId", "==", choir.id).execute();
-
-  if (choirs.length < 1) {
-    throw new Error("");
-  }
-
-  const events: { event: ShowChoirEventsTable; performances: ShowChoirPerformancesTable[] }[] = [];
+  const events: { event: ShowChoirEvents; performances: ShowChoirPerformances[] }[] = [];
 
   for (let i = 0; i < partialEvents.length; i++) {
     const partialEvent = partialEvents[i];
 
     const performances = await db
-      .selectFrom("showChoirPerformances")
-      .selectAll()
-      .where("eventId", "==", partialEvent.id)
-      .execute();
+      .collection("showChoirPerformances")
+      .getFullList({ filter: `event="${partialEvent.id}"` });
 
     events.push({
       event: partialEvent,
@@ -69,17 +55,13 @@ const PerformanceBrowser: NextPage<IProps> = async ({ params, searchParams }) =>
       ? "Did not place"
       : `${getNumberWithOrdinal(event.event.place)} Place`;
 
-  const captions: string[] = JSON.parse(event.event.captions ?? "[]");
-
   return (
     <div
       style={{
         backgroundColor: `${choir.secondaryColor}80`,
         backdropFilter: "blur(4px) brightness(50%)",
-        maxHeight: "90%",
         maxWidth: "100%",
         borderRadius: "10px",
-        overflowY: "scroll",
         overflowX: "hidden",
       }}
     >
@@ -114,10 +96,10 @@ const PerformanceBrowser: NextPage<IProps> = async ({ params, searchParams }) =>
       <div style={{ padding: "1rem" }}>
         <h2>{event.event.name}</h2>
         <p style={{ fontWeight: "bold", marginLeft: "1rem" }}>
-          {event.event.date} &bull; <i>{place}</i>
+          {moment.utc(event.event.date).format("MMM Do, YYYY")} &bull; <i>{place}</i>
         </p>
         <ul style={{ marginLeft: "2rem" }}>
-          {captions.map((caption) => {
+          {(Array.isArray(event.event.captions) ? event.event.captions : []).map((caption) => {
             return <li>{caption}</li>;
           })}
         </ul>
@@ -126,7 +108,7 @@ const PerformanceBrowser: NextPage<IProps> = async ({ params, searchParams }) =>
           <h3>Performances</h3>
           <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", width: "100%" }}>
             {event.performances.map((performance) => {
-              if (performance.rootUrl === "stub/") {
+              if (performance.rootUrl === "https://example.com/stub/") {
                 return <></>;
               }
               return (

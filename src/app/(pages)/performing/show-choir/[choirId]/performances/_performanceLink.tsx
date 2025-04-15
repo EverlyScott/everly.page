@@ -1,11 +1,11 @@
-import { ShowChoirEventsTable, ShowChoirGroupsTable, ShowChoirPerformancesTable } from "@/db";
+import { ShowChoirEvents, ShowChoirGroups, ShowChoirPerformances } from "@/db";
 import Link from "next/link";
 import styles from "./_link.module.scss";
 
 interface IProps {
-  choir: ShowChoirGroupsTable;
-  event: ShowChoirEventsTable;
-  performance: ShowChoirPerformancesTable;
+  choir: ShowChoirGroups;
+  event: ShowChoirEvents;
+  performance: ShowChoirPerformances;
 }
 
 const PerformanceLink: React.FC<IProps> = ({ choir, event, performance }) => {
@@ -29,7 +29,7 @@ const PerformanceLink: React.FC<IProps> = ({ choir, event, performance }) => {
           width="200px"
           style={{ borderRadius: "10px", aspectRatio: 16 / 9 }}
         />
-        <p style={{ fontWeight: "bold" }}>{performance.title ?? event.name}</p>
+        <p style={{ fontWeight: "bold" }}>{performance.title === "" ? event.name : performance.title}</p>
       </div>
     </Link>
   );
