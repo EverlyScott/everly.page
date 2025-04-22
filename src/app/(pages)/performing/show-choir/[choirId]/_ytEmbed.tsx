@@ -45,6 +45,7 @@ const PlayButton: React.FC<IButtonProps> = ({ youtubeId, buttonColor, buttonText
           borderRadius: "10px",
           padding: "1rem .5rem",
           color: buttonTextColor,
+          cursor: "pointer",
         }}
         className="playpause"
         onClick={handlePlay}

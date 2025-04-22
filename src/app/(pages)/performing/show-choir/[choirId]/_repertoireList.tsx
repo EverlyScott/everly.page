@@ -86,7 +86,7 @@ const Song: React.FC<ISongProps> = ({ i, choir, song, sub }) => {
         </h3>
         <p>{song.by}</p>
       </LinkOrSpan>
-      <PlayButton youtubeId={song.youtubeId} />
+      <PlayButton youtubeId={song.youtubeId} buttonColor={choir.secondaryColor} buttonTextColor={choir.primaryColor} />
     </div>
   );
 };
