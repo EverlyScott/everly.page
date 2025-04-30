@@ -66,31 +66,35 @@ const VideoBrowser: React.FC<IProps> = async ({ Tab }) => {
                   ) : (
                     <></>
                   )}
-                  <Link href={`./?tab=${i}#videos`} style={{ color: "#ffffff" }} key={i}>
-                    <div
-                      className={styles.venue}
-                      style={{
-                        backgroundColor: selected ? "#ffffff40" : undefined,
-                      }}
-                    >
-                      <img
-                        src={`${performance.videos[0].rootUrl}thumb.avif`}
-                        width="100px"
-                        style={{ borderRadius: "10px", aspectRatio: 16 / 9 }}
-                      />
-                      <div>
-                        <p>{performance.performance.name}</p>
-                        {performance.venue.name !== performance.performance.name ? (
-                          <p style={{ fontSize: "0.8rem" }}>@ {performance.venue.name}</p>
-                        ) : (
-                          <></>
-                        )}
-                        <p style={{ fontStyle: "italic", fontSize: "0.8rem" }}>
-                          {moment.utc(performance.performance.date).format("MMM Do, YYYY")}
-                        </p>
+                  {performance.videos[0] ? (
+                    <Link href={`./?tab=${i}#videos`} style={{ color: "#ffffff" }} key={i}>
+                      <div
+                        className={styles.venue}
+                        style={{
+                          backgroundColor: selected ? "#ffffff40" : undefined,
+                        }}
+                      >
+                        <img
+                          src={`${performance.videos[0].rootUrl}thumb.avif`}
+                          width="100px"
+                          style={{ borderRadius: "10px", aspectRatio: 16 / 9 }}
+                        />
+                        <div>
+                          <p>{performance.performance.name}</p>
+                          {performance.venue.name !== performance.performance.name ? (
+                            <p style={{ fontSize: "0.8rem" }}>@ {performance.venue.name}</p>
+                          ) : (
+                            <></>
+                          )}
+                          <p style={{ fontStyle: "italic", fontSize: "0.8rem" }}>
+                            {moment.utc(performance.performance.date).format("MMM Do, YYYY")}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
                 </>
               );
             })}
