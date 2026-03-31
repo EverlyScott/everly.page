@@ -8,7 +8,6 @@ import db, {
   ShowChoirPerformances,
 } from "@/db";
 import { GenericVideo } from "@/types";
-import RelatedVideos from "./_confluence/relatedVideos";
 import { RecordModel } from "pocketbase";
 
 interface Source {
@@ -40,27 +39,6 @@ type ExpandedShowChoirPerformance = Expand<
 >;
 
 const sources: Source = {
-  confluence: async (id: string) => {
-    const video = await db
-      .collection("confluenceVideos")
-      .getFirstListItem<ExpandedConfluenceVideo>(`id="${id}"`, { expand: "performance, performance.venue" });
-
-    if (!video) {
-      throw new Error("404");
-    }
-
-    return {
-      fullTitle: `${video.performanceOrder}. ${video.song}${video.suffix ? ` ${video.suffix}` : ""}`,
-      subTitle: video.venue,
-      playerTitle: video.song,
-      src: `${video.rootUrl}index.m3u8`,
-      staticSrc: `${video.rootUrl}original.mp4`,
-      thumbnail: `${video.rootUrl}thumb.avif`,
-      previews: `${video.rootUrl}seek/seek.vtt`,
-      backgroundColor: "#331C50",
-      relatedVideos: <RelatedVideos id={id} video={video} />,
-    };
-  },
   "show-choir": async (id) => {
     const performance = await db
       .collection("showChoirPerformances")
