@@ -1,7 +1,7 @@
 "use client";
 
 import { ConfluencePerformance, ConfluenceVideo, Expand } from "@/db";
-import VideoLink from "../../../../performing/confluence/_videoLink";
+import VideoLink from "../../../../audio/confluence/_videoLink";
 import fetchRelatedVideos from "./fetchRelatedVideos";
 import { use, useEffect, useState } from "react";
 import LoadingRelatedVideos from "./loadingRelatedVideos";

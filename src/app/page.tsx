@@ -71,13 +71,13 @@ const Home: NextPage = () => {
               </Link>
             </li>
             <li>
-              <Link className={linkColors.orange} href="https://photos.everly.page" target="_blank">
-                photography
+              <Link className={linkColors.blue} href="/audio">
+                audio engineering
               </Link>
             </li>
             <li>
-              <Link className={linkColors.blue} href="/performing">
-                performing
+              <Link className={linkColors.orange} href="https://www.instagram.com/everly.scott_/" target="_blank">
+                photography
               </Link>
             </li>
           </ul>
@@ -110,29 +110,32 @@ const Home: NextPage = () => {
           <br />
           <div style={{ maxWidth: "80vw", textAlign: "left", display: "flex", flexDirection: "column", gap: "1rem" }}>
             <p>
-              I'm a high school senior with a lifelong passion for computers. I built my first website in HTML when I
-              was around 10 years old, and I've been exploring technology ever since.
+              I'm a college freshman with a strong interest in audio and technology, built on years of hands-on
+              experience.
             </p>
             <p>
-              Music has also been a big part of my life. I started with general music in elementary school, then
-              continued with choir and band throughout middle and high school. I play tuba in band and sing baritone in
-              choir. In my junior year, I took a music theory class, and this year, I was in a rock ensemble class where
-              I learnt guitar, bass, keys, and drums.
+              I've been into computers since I was young. I built my first basic website around age 7 and I've continued
+              developing technical skills ever since. Over time, that interest naturally expanded into audio, where I
+              enjoy working with live sound and production.
             </p>
             <p>
-              Freshman year, I joined our school's show band and picked up the trumpet, which I played for two years
-              before switching to drums in junior year. Now, I play auxiliary percussion. I've also experimented with
-              saxophone and trombone, and as a kid, I took piano lessons on and off—something I still enjoy playing for
-              fun.
+              Music has been a big part of my life. I've been involved in band, choir, and show band, and I also play
+              guitar, bass, piano, and drums, as well as having experience with brass instruments including tuba,
+              trumpet, and trombone. That background has given me a solid understanding of how musicians perform and
+              what they need to sound their best.
             </p>
             <p>
-              During my junior year, I joined Confluence, a student-led cover band. While we organize the music
-              ourselves, our teachers support us with funding and guidance. Each year, we welcome new members and put
-              together a fresh setlist as seniors graduate.
+              More recently, I've focused on the technical side of music. During my junior year of high school, I joined
+              Confluence, a student-led cover band. I started as a vocalist, but gradually took on the role of sound
+              technician, handling recording and live mixing for performances, and I'm now contracted to continue the
+              same work. I'm also contracted with the Logan Choral Program to record, mix, and livestream their choir
+              concerts.
             </p>
             <p>
-              Photography is a more recent interest of mine—I've been into it for about five years. I love capturing the
-              beauty in everyday moments, especially when traveling.
+              I have hands-on experience with digital audio systems, including mixers like the Mackie DL32S, PreSonus
+              16.4.2, Behringer X32, and the Allen & Heath Qu series, and I'm also proficient with Mixing Station. I'm
+              comfortable setting up systems, managing monitor mixes, and troubleshooting in live environments. I enjoy
+              the fast-paced nature of live events and the challenge of making everything come together seamlessly.
             </p>
           </div>
         </div>

@@ -16,7 +16,13 @@ const ChoirBrowser: React.FC = async () => {
       }}
     >
       <div
-        style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", gap: "4rem", flexWrap: "wrap" }}
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          gap: "4rem",
+          flexWrap: "wrap",
+        }}
       >
         {choirs.map((choir) => {
           return (
