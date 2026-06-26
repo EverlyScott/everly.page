@@ -132,10 +132,12 @@ const Home: NextPage = () => {
               concerts.
             </p>
             <p>
-              I have hands-on experience with digital audio systems, including mixers like the Mackie DL32S, PreSonus
-              16.4.2, Behringer X32, and the Allen & Heath Qu series, and I'm also proficient with Mixing Station. I'm
-              comfortable setting up systems, managing monitor mixes, and troubleshooting in live environments. I enjoy
-              the fast-paced nature of live events and the challenge of making everything come together seamlessly.
+              I have hands-on experience with digital audio systems, including the Mackie DL32S, PreSonus StudioLive
+              16.4.2, Behringer X32, Allen & Heath Qu series, and Yamaha DM, CL, and QL series mixers. I've mixed on
+              professional sound reinforcement systems, including L-Acoustics and NEXO line arrays, and I'm comfortable
+              setting up audio systems, managing monitor mixes, troubleshooting live sound issues, and adapting quickly
+              to different consoles and production environments. I enjoy the fast-paced nature of live events and the
+              challenge of making every performance come together seamlessly.
             </p>
           </div>
         </div>
