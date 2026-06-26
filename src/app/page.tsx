@@ -133,11 +133,13 @@ const Home: NextPage = () => {
             </p>
             <p>
               I have hands-on experience with digital audio systems, including the Mackie DL32S, PreSonus StudioLive
-              16.4.2, Behringer X32, Allen & Heath Qu series, and Yamaha DM, CL, and QL series mixers. I've mixed on
-              professional sound reinforcement systems, including L-Acoustics and NEXO line arrays, and I'm comfortable
-              setting up audio systems, managing monitor mixes, troubleshooting live sound issues, and adapting quickly
-              to different consoles and production environments. I enjoy the fast-paced nature of live events and the
-              challenge of making every performance come together seamlessly.
+              16.4.2, Behringer X32, Allen & Heath Qu series, and Yamaha DM, CL, and QL series mixers. Through live
+              concerts, theater productions, and corporate events, I've gained experience setting up audio systems and
+              mixing on professional L-Acoustics and NEXO line array systems, as well as point-source systems such as
+              the Yamaha DZR/DXS series, QSC KW line, and Mackie Thump loudspeakers. I'm comfortable managing monitor
+              mixes, troubleshooting live sound issues, and adapting quickly to different production environments. I
+              enjoy the fast-paced nature of live events and the challenge of making every production come together
+              seamlessly.
             </p>
           </div>
         </div>
